@@ -1,5 +1,5 @@
 # apartments-googlemaps
-Shows all apartments I've applied for through Wåhlin Fastigheter using Google Maps.
+Shows all apartments I've applied for through Wåhlin Fastigheter on a map.
 
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
