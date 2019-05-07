@@ -1,0 +1,33 @@
+{
+  "name": "apartments-googlemaps",
+  "version": "1.0.0",
+  "description": "Shows all apartments I've applied for through Wåhlin Fastigheter using Google Maps.",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "start": "npm run develop",
+    "serve": "gatsby serve",
+    "test": "echo \"No tests yet you schmuck!\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesperc/apartments-googlemaps.git"
+  },
+  "author": "Jesper Corell",
+  "bugs": {
+    "url": "https://github.com/jesperc/apartments-googlemaps/issues"
+  },
+  "homepage": "https://github.com/jesperc/apartments-googlemaps#readme",
+  "dependencies": {
+    "faunadb": "^2.6.1",
+    "gatsby": "^2.4.2",
+    "google-maps-react": "^2.0.2",
+    "leaflet": "^1.4.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
