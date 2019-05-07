@@ -4,16 +4,20 @@ export const setItem = (key, value) => {
 };
 
 export const getItem = (key) => {
-    const object = JSON.parse(localStorage.getItem(key));
-    
-    if (object) {
-        // clear storage item if stored more than 4 hours
-        const fourHoursAgo = new Date().getTime() - (4 * 60 * 60 * 1000);
-        if (new Date(object.timestamp) <= fourHoursAgo) {
-            clearItem(key);
-            return null;
-        }
+    let object = localStorage.getItem(key);
+    if (object == null) {
+        return null;
     }
+
+    object = JSON.parse(object);
+
+    // clear storage item if stored more than 4 hours
+    const fourHoursAgo = new Date().getTime() - (4 * 60 * 60 * 1000);
+    if (new Date(object.timestamp) <= fourHoursAgo) {
+        clearItem(key);
+        return null;
+    }
+    
     return object.value;
 };
 
