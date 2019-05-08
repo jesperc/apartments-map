@@ -31,7 +31,9 @@ const MapView = ({list}) => {
             let index = item.address.indexOf(',');
             const str = item.address.substring(0, index >= 0 ? index : item.address.length);
 
-            let date = new Date(item.created).toISOString();
+            let date = new Date(item.created);
+            date.setHours(date.getHours() + 2);
+            date = date.toISOString();
             index = date.indexOf('T');
             date = date.replace('T', ' ').substr(0, index + 6);
 
