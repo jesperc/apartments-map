@@ -1,24 +1,24 @@
 import faunadb from 'faunadb';
+import axios from 'axios';
 
-import auth from '../../auth';
+import secrets from '../../secrets';
 import { getItem, setItem } from '../util/storage';
 
-const storageKey = 'ag-apartments';
+const storageApartmentsKey = 'ag-apartments';
+const storageCoordinatesKey = 'ag-coordinates';
 
 export const getAllApartments = async () => {
-    const storedApartments = getItem(storageKey);
+    const storedApartments = getItem(storageApartmentsKey);
     if (storedApartments) {
-        console.log("returning stored apartments");
         return storedApartments;
     }
-    console.log("no stored apartments");
     
     try {
         const q = faunadb.query;
 
         // connect to faunadb client
         const client = new faunadb.Client(
-            { secret: auth.faunadbSecret }
+            { secret: secrets.faunadbSecret }
         );
      
         // get all references from index getAllReferencesFromIndex
@@ -30,11 +30,11 @@ export const getAllApartments = async () => {
         // get all instances from references
         let instances = await client.query(rows);
         instances = instances
-            .filter(instance => instance.data.applicant === auth.socialSecurityNumber)
+            .filter(instance => instance.data.applicant === secrets.socialSecurityNumber)
             .map(instance => instance.data);
 
         setItem(
-            storageKey, 
+            storageApartmentsKey, 
             instances.map(item => ({
                 objectNumber: item.objectNumber, 
                 address: item.address, 
@@ -49,5 +49,40 @@ export const getAllApartments = async () => {
     } catch (error) {
         console.log(`error when retrieving all apartments: ${error}`);
         throw error;
+    }
+};
+
+export const getCoordinates = async (apartments) => {
+    const storedCoordinates = getItem(storageCoordinatesKey);
+    if (storedCoordinates) {
+        return storedCoordinates;
+    }
+
+    try {
+        const items = [];
+        for (let apartment of apartments) {
+            const place = apartment.address.includes(',')
+                ? apartment.address
+                : `${apartment.address}, Stockholm`;
+            const url = `https://api.opencagedata.com/geocode/v1/json?q=${place}&key=${secrets.openCageApiKey}`;
+            const result = await axios.get(url);
+            const scores = result.data.results.map(item => item.confidence);
+            const highestScore = Math.max(...scores);
+            const target = result.data.results.filter(item => item.confidence === highestScore)[0];
+
+            if (target.formatted.includes('Stockholm Municipality')) {
+                continue;
+            }
+
+            items.push({
+                objectNumber: apartment.objectNumber,
+                lat: target.geometry.lat,
+                lng: target.geometry.lng,
+            });
+        }
+        setItem(storageCoordinatesKey, items);
+        return items;
+    } catch (error) {
+        console.log(`error when retrieving coordinates: ${error}`);
     }
 };
