@@ -1,3 +1,5 @@
+import React from 'react';
+
 import 'leaflet/dist/leaflet.css';
 import '../styles/global.css';
 
@@ -28,7 +30,20 @@ const MapView = ({list}) => {
     // set markers
     for (let item of list) {
         if (item.lat != null && item.lng != null) {
-            L.marker([item.lat, item.lng]).addTo(map);
+            let index = item.address.indexOf(',');
+            const str = item.address.substring(0, index >= 0 ? index : item.address.length);
+
+            let date = new Date(item.created).toISOString();
+            index = date.indexOf('T');
+            date = date.replace('T', ' ').substr(0, index + 6);
+
+            const popupStr = `
+<p>${str}</p>
+<p>${item.rooms}, ${item.area}, ${item.rent}</p>
+<p>${date}</p>
+            `;
+
+            L.marker([item.lat, item.lng]).bindTooltip(popupStr).addTo(map);
         }
     }
 
