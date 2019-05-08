@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jesperc/apartments-googlemaps#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "faunadb": "^2.6.1",
     "gatsby": "^2.4.2",
     "google-maps-react": "^2.0.2",
