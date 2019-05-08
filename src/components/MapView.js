@@ -1,7 +1,5 @@
-import React from 'react';
-
 import 'leaflet/dist/leaflet.css';
-import '../styles/global.css';
+import './style.css';
 
 import L from 'leaflet';
 

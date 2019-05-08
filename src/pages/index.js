@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import Map from '../components/MapContainer';
 
-export default class Index extends Component {
-    render() {
-        return <Map />;
-    }
-}
+export const Index = () => {
+    return <Map />;
+};
+
+export default Index;

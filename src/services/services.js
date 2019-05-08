@@ -1,7 +1,7 @@
 import faunadb from 'faunadb';
 import axios from 'axios';
 
-import secrets from '../../secrets';
+import secrets from '../secrets';
 import { getItem, setItem } from '../util/storage';
 
 const storageApartmentsKey = 'ag-apartments';
