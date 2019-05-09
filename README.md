@@ -1,6 +1,8 @@
 # apartments-googlemaps
 Shows all apartments I've applied for through Wåhlin Fastigheter on a map.
 
+![Image of map](https://dizz.se/resources/map-screenshot.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
